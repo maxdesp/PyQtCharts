@@ -14,12 +14,12 @@ def _pieChartDemo():
             ['PHP', 6.096]]
 
     table = DataTable(columns, rows, key=1)
-    # table.addRow()
+    # table.add_row()
 
     chart = PieChart(table)
     #chart.save('pie.png', QSize(240, 240), 100)
     view = DialogViewer(size=(360, 240))
-    view.setGraph(chart)
+    view.set_graph(chart)
     view.exec_()
 
 def _scatterChartDemo():
@@ -46,25 +46,25 @@ def _scatterChartDemo():
     #chart.save('scatter.png', QSize(400, 240), 100)
 
     view = DialogViewer()
-    view.setGraph(chart)
+    view.set_graph(chart)
     view.resize(400, 240)
     view.exec_()
 
 def _lineChartDemo():
     table = DataTable()
-    table.addColumn('Time')
-    table.addColumn('Site 1')
-    table.addColumn('Site 2')
-    table.addColumn('Site 3')
-    table.addRow([ 4.00, 120,   80,  400])
-    table.addRow([ 6.00, 270,  850,  320])
-    table.addRow([ 8.30,  50, 1200,  280])
-    table.addRow([10.15, 320, 1520,  510])
-    table.addRow([12.00, 150,  930, 1100])
-    table.addRow([18.20,  62, 1100,  240])
+    table.add_column('Time')
+    table.add_column('Site 1')
+    table.add_column('Site 2')
+    table.add_column('Site 3')
+    table.add_row([ 4.00, 120,   80,  400])
+    table.add_row([ 6.00, 270,  850,  320])
+    table.add_row([ 8.30,  50, 1200,  280])
+    table.add_row([10.15, 320, 1520,  510])
+    table.add_row([12.00, 150,  930, 1100])
+    table.add_row([18.20,  62, 1100,  240])
 
     chart = LineChart(table)
-    chart.setHorizontalAxisColumn(0)
+    chart.set_horizontal_axis_column(0)
     chart.haxis_title = 'Time'
     chart.haxis_vmin = 0.0
     chart.haxis_vmax = 20.0
@@ -73,24 +73,24 @@ def _lineChartDemo():
     #chart.save('line.png', QSize(400, 240), 100)
 
     view = DialogViewer()
-    view.setGraph(chart)
+    view.set_graph(chart)
     view.resize(400, 240)
     view.exec_()
 
 def _areaChartDemo():
     table = DataTable()
-    table.addColumn('Time')
-    table.addColumn('Site 1')
-    table.addColumn('Site 2')
-    table.addRow([ 4.00, 120,   500])
-    table.addRow([ 6.00, 270,   460])
-    table.addRow([ 8.30, 1260, 1120])
-    table.addRow([10.15, 2030,  540])
-    table.addRow([12.00,  520,  890])
-    table.addRow([18.20, 1862, 1500])
+    table.add_column('Time')
+    table.add_column('Site 1')
+    table.add_column('Site 2')
+    table.add_row([ 4.00, 120,   500])
+    table.add_row([ 6.00, 270,   460])
+    table.add_row([ 8.30, 1260, 1120])
+    table.add_row([10.15, 2030,  540])
+    table.add_row([12.00,  520,  890])
+    table.add_row([18.20, 1862, 1500])
 
     chart = AreaChart(table)
-    chart.setHorizontalAxisColumn(0)
+    chart.set_horizontal_axis_column(0)
     chart.haxis_title = 'Time'
     chart.haxis_vmin = 0.0
     chart.haxis_vmax = 20.0
@@ -99,7 +99,7 @@ def _areaChartDemo():
     #chart.save('area.png', QSize(400, 240), 100)
 
     view = DialogViewer()
-    view.setGraph(chart)
+    view.set_graph(chart)
     view.resize(400, 240)
     view.exec_()
 
