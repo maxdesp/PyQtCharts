@@ -5,7 +5,7 @@
 #
 #   project based on :
 #   https://github.com/matteobertozzi/blog-code/blob/master/qt4-charts/chart.py
-#   author : Matteo Bertozzi
+#   by Matteo Bertozzi
 #
 #   convert from python2 to python3
 #   convert form PyQt4   to PyQt5
@@ -295,7 +295,7 @@ class ScatterChart(Chart):
 
         ref_min, ref_max, ref_step = _min_max_delta(self._ref_col)
         oth_min = oth_max = oth_step = None
-        for col in range(len(self.data.columns)):
+        for col, _ in enumerate(self.data.columns):
             if col == self._ref_col:
                 continue
 
