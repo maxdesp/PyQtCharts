@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #
-#   PyQtCharts.py
+#   qcharts.py
 #   version : 0.1
 #
 #   project based on :
 #   https://github.com/matteobertozzi/blog-code/blob/master/qt4-charts/chart.py
 #   author : Matteo Bertozzi
 #
-#   converted from python2 to python3
-#   converted form PyQt4   to PyQt5
+#   convert from python2 to python3
+#   convert form PyQt4   to PyQt5
 
 from itertools import cycle
 from PyQt5.QtWidgets import QDockWidget, QSizePolicy
@@ -27,7 +27,7 @@ class Chart(object):
         self._ref_col = 0
         self._ref_isv = True
 
-    def set_vertial_axis_column(self, column):
+    def set_vertical_axis_column(self, column):
         self._ref_col = column
         self._ref_isv = True
 
@@ -52,14 +52,14 @@ class Chart(object):
         if legend_width:
             legendRect = QRect(QPoint(chart_size.width(), 10),
                                QSize(legend_width, chart_size.height()))
-            self.daw_legend(painter, legendRect)
+            self.draw_legend(painter, legendRect)
         painter.end()
         return image.save(filename)
 
     def draw(self, painter, rectangle):
         raise NotImplementedError
 
-    def daw_legend(self, painter, rectangle):
+    def draw_legend(self, painter, rectangle):
         SPACE = 2
 
         font_metrics = painter.fontMetrics()
@@ -295,7 +295,7 @@ class ScatterChart(Chart):
 
         ref_min, ref_max, ref_step = _min_max_delta(self._ref_col)
         oth_min = oth_max = oth_step = None
-        for col, _ in enumerate(self.data.columns):
+        for col in range(len(self.data.columns)):
             if col == self._ref_col:
                 continue
 
@@ -370,7 +370,7 @@ class Viewer(QWidget):
         self.graph = func
         self.update()
 
-    def paint_event(self, event):
+    def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
     
@@ -386,7 +386,7 @@ class Viewer(QWidget):
                                event.rect().height() - 20)
 
             self.graph.draw(painter, graphRect)
-            self.graph.daw_legend(painter, legendRect)
+            self.graph.draw_legend(painter, legendRect)
 
         painter.end()
 
