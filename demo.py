@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from PyQtCharts import (PieChart, ScatterChart, LineChart, AreaChart,
+from qcharts import (PieChart, ScatterChart, LineChart, AreaChart,
                         DataTable, DialogViewer)
 from PyQt5.Qt import QApplication
 
