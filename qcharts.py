@@ -295,7 +295,7 @@ class ScatterChart(Chart):
 
         ref_min, ref_max, ref_step = _minMaxDelta(self._ref_col)
         oth_min = oth_max = oth_step = None
-        for col in range(len(self.data.columns)):
+        for col, _ in enumerate(self.data.columns):
             if col == self._ref_col:
                 continue
 
