@@ -262,17 +262,17 @@ class ScatterChart(Chart):
 
     def _v_to_string(self, value):
         if isinstance(self.vaxis_step, float):
-            return '%.2f' % value
+            return '{0:.2f}'.format(value)
         if isinstance(self.vaxis_step, int):
-            return '%d' % value
-        return '%s' % value
+            return '{0:d}'.format(value)
+        return '{0!s}'.format(value)
 
     def _h_to_string(self, value):
         if isinstance(self.haxis_step, float):
-            return '%.2f' % value
+            return '{0:.2f}'.format(value)
         if isinstance(self.haxis_step, int):
-            return '%d' % value
-        return '%s' % value
+            return '{0:d}'.format(value)
+        return '{0!s}'.format(value)
 
     def setup_default_values(self):
         def _min_max_delta(col):
