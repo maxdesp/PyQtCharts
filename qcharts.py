@@ -27,11 +27,11 @@ class Chart(object):
         self._ref_col = 0
         self._ref_isv = True
 
-    def setVerticalAxisColumn(self, column):
+    def set_vertial_axis_column(self, column):
         self._ref_col = column
         self._ref_isv = True
 
-    def setHorizontalAxisColumn(self, column):
+    def set_horizontal_axis_column(self, column):
         self._ref_col = column
         self._ref_isv = False
 
@@ -52,14 +52,14 @@ class Chart(object):
         if legend_width:
             legendRect = QRect(QPoint(chart_size.width(), 10),
                                QSize(legend_width, chart_size.height()))
-            self.drawLegend(painter, legendRect)
+            self.daw_legend(painter, legendRect)
         painter.end()
         return image.save(filename)
 
     def draw(self, painter, rectangle):
         raise NotImplementedError
 
-    def drawLegend(self, painter, rectangle):
+    def daw_legend(self, painter, rectangle):
         SPACE = 2
 
         font_metrics = painter.fontMetrics()
@@ -76,7 +76,7 @@ class Chart(object):
         painter.translate(rectangle.x(), rectangle.y())
 
         color = self._icolors()
-        for i, column in enumerate(self._fetchLegendData()):
+        for i, column in enumerate(self._fetch_legend_data()):
             if (y + size + SPACE * 2) >= (rectangle.y() + rectangle.height()) \
             and i < (len(self.data.columns) - 1):
                 painter.drawText(x1, y, tw, size, Qt.AlignLeft | Qt.AlignVCenter, "...")
@@ -92,7 +92,7 @@ class Chart(object):
         painter.drawRect(0, 0, w, y)
         painter.restore()
 
-    def _fetchLegendData(self):
+    def _fetch_legend_data(self):
         for i, column in enumerate(self.data.columns):
             if i != self._ref_col:
                 yield column
@@ -122,7 +122,7 @@ class PieChart(Chart):
 
         painter.restore()
 
-    def _fetchLegendData(self):
+    def _fetch_legend_data(self):
         for row in self.data.rows:
             yield row[self._ref_col]
 
@@ -145,11 +145,11 @@ class ScatterChart(Chart):
         self.vaxis_grid = True
 
     def draw(self, painter, rectangle):
-        self._setupDefaultValues()
+        self.setup_default_values()
 
         font_metrics = painter.fontMetrics()
         h = font_metrics.xHeight() * 2
-        x = font_metrics.width(self._vToString(self.vaxis_vmax))
+        x = font_metrics.width(self._v_to_string(self.vaxis_vmax))
 
         # Calculate X steps
         nxstep = int(round((self.haxis_vmax - self.haxis_vmin) / self.haxis_step))
@@ -170,18 +170,18 @@ class ScatterChart(Chart):
 
         # Draw Axis Titles
         painter.save()
-        self._drawAxisTitles(painter, xmin, xmax, ymin, ymax)
+        self._draw_axis_titles(painter, xmin, xmax, ymin, ymax)
         painter.restore()
 
         # Draw Axis Labels
         painter.save()
-        self._drawAxisLabels(painter, xmin, xmax, ymin, ymax, xstep, nxstep, ystep, nystep)
+        self._draw_axis_labels(painter, xmin, xmax, ymin, ymax, xstep, nxstep, ystep, nystep)
         painter.restore()
 
         # Draw Data
         painter.save()
         painter.setClipRect(xmin + 1, ymin, xmax - xmin - 2, ymax - ymin - 1)
-        self._drawData(painter, xmin, xmax, ymin, ymax)
+        self._draw_data(painter, xmin, xmax, ymin, ymax)
         painter.restore()
 
         # Draw Border
@@ -191,7 +191,7 @@ class ScatterChart(Chart):
 
         painter.restore()
 
-    def _drawAxisTitles(self, painter, xmin, xmax, ymin, ymax):
+    def _draw_axis_titles(self, painter, xmin, xmax, ymin, ymax):
         font_metrics = painter.fontMetrics()
         h = font_metrics.xHeight() * 2
         hspan = self.SPAN / 2
@@ -207,7 +207,7 @@ class ScatterChart(Chart):
             painter.rotate(90)
             painter.drawText(ymin + (ymax - ymin) / 2 - font_metrics.width(self.vaxis_title) / 2, -hspan, self.vaxis_title)
 
-    def _drawAxisLabels(self, painter, xmin, xmax, ymin, ymax, xstep, nxstep, ystep, nystep):
+    def _draw_axis_labels(self, painter, xmin, xmax, ymin, ymax, xstep, nxstep, ystep, nystep):
         font_metrics = painter.fontMetrics()
         h = font_metrics.xHeight() * 2
 
@@ -229,15 +229,15 @@ class ScatterChart(Chart):
         painter.setPen(Qt.black)
         for i in range(1 + nxstep):
             x = xmin + (i * xstep)
-            v = self._hToString(self.haxis_vmin + i * self.haxis_step)
+            v = self._h_to_string(self.haxis_vmin + i * self.haxis_step)
             painter.drawText(x - font_metrics.width(v) / 2, 2 + ymax + h, v)
 
         for i in range(1 + nystep):
             y = ymin + (i * ystep)
-            v = self._vToString(self.vaxis_vmin + (nystep - i) * self.vaxis_step)
+            v = self._v_to_string(self.vaxis_vmin + (nystep - i) * self.vaxis_step)
             painter.drawText(xmin - font_metrics.width(v) - 2, y, v)
 
-    def _drawData(self, painter, xmin, xmax, ymin, ymax):
+    def _draw_data(self, painter, xmin, xmax, ymin, ymax):
         c = 0
         color = self._icolors()
         while c < len(self.data.columns):
@@ -246,36 +246,36 @@ class ScatterChart(Chart):
                     a, b = c, self._ref_col
                 else:
                     a, b = self._ref_col, c
-                self._drawColumnData(painter, next(color), a, b, xmin, xmax, ymin, ymax)
+                self._draw_column_data(painter, next(color), a, b, xmin, xmax, ymin, ymax)
             c += 1
 
-    def _drawColumnData(self, painter, color, xcol, ycol, xmin, xmax, ymin, ymax):
+    def _draw_column_data(self, painter, color, xcol, ycol, xmin, xmax, ymin, ymax):
         painter.setPen(QPen(QColor(color), 7, Qt.SolidLine, Qt.RoundCap))
         for row in self.data.rows:
-            x, y = self._xyFromData(row[xcol], row[ycol], xmin, xmax, ymin, ymax)
+            x, y = self._xy_from_data(row[xcol], row[ycol], xmin, xmax, ymin, ymax)
             painter.drawPoint(x, y)
 
-    def _xyFromData(self, xdata, ydata, xmin, xmax, ymin, ymax):
+    def _xy_from_data(self, xdata, ydata, xmin, xmax, ymin, ymax):
         x = xmin + (float(xdata - self.haxis_vmin) / (self.haxis_vmax - self.haxis_vmin)) * (xmax - xmin)
         y = ymin + (1.0 - (float(ydata - self.vaxis_vmin) / (self.vaxis_vmax - self.vaxis_vmin))) * (ymax - ymin)
         return x, y
 
-    def _vToString(self, value):
+    def _v_to_string(self, value):
         if isinstance(self.vaxis_step, float):
             return '%.2f' % value
         if isinstance(self.vaxis_step, int):
             return '%d' % value
         return '%s' % value
 
-    def _hToString(self, value):
+    def _h_to_string(self, value):
         if isinstance(self.haxis_step, float):
             return '%.2f' % value
         if isinstance(self.haxis_step, int):
             return '%d' % value
         return '%s' % value
 
-    def _setupDefaultValues(self):
-        def _minMaxDelta(col):
+    def setup_default_values(self):
+        def _min_max_delta(col):
             vmin = None
             vmax = None
             vdelta = 0
@@ -293,13 +293,13 @@ class ScatterChart(Chart):
 
             return vmin, vmax, vdelta / ndelta
 
-        ref_min, ref_max, ref_step = _minMaxDelta(self._ref_col)
+        ref_min, ref_max, ref_step = _min_max_delta(self._ref_col)
         oth_min = oth_max = oth_step = None
         for col, _ in enumerate(self.data.columns):
             if col == self._ref_col:
                 continue
 
-            cmin, cmax, cstep = _minMaxDelta(col)
+            cmin, cmax, cstep = _min_max_delta(col)
             oth_min = cmin if oth_min is None else min(cmin, oth_min)
             oth_max = cmax if oth_max is None else max(cmax, oth_max)
             oth_step = cstep if oth_step is None else (oth_step + cstep) / 2
@@ -321,7 +321,7 @@ class ScatterChart(Chart):
 
 class LineChart(ScatterChart):
     
-    def _drawColumnData(self, painter, color, xcol,
+    def _draw_column_data(self, painter, color, xcol,
                         ycol, xmin, xmax, ymin, ymax):
 
         painter.setPen( QPen(QColor(color), 2,
@@ -330,18 +330,18 @@ class LineChart(ScatterChart):
         path = QPainterPath()
 
         row = self.data.rows[0]
-        x, y = self._xyFromData(row[xcol], row[ycol],
+        x, y = self._xy_from_data(row[xcol], row[ycol],
                                 xmin, xmax, ymin, ymax)
         path.moveTo(x, y)
 
         for row in self.data.rows[1:]:
-            x, y = self._xyFromData(row[xcol], row[ycol],
+            x, y = self._xy_from_data(row[xcol], row[ycol],
                                     xmin, xmax, ymin, ymax)
             path.lineTo(x, y)
             painter.drawPath(path)
 
 class AreaChart(ScatterChart):
-    def _drawColumnData(self, painter, color,
+    def _draw_column_data(self, painter, color,
                         xcol, ycol, xmin, xmax, ymin, ymax):
                             
         painter.setPen( QPen(QColor(color), 2,
@@ -354,7 +354,7 @@ class AreaChart(ScatterChart):
         path = QPainterPath()
         path.moveTo(xmin, ymax)
         for row in self.data.rows:
-            x, y = self._xyFromData(row[xcol], row[ycol],
+            x, y = self._xy_from_data(row[xcol], row[ycol],
                                     xmin, xmax, ymin, ymax)
             path.lineTo(x, y)
         path.lineTo(xmax, ymax)
@@ -366,11 +366,11 @@ class Viewer(QWidget):
         QWidget.__init__(self)
         self.graph = None
 
-    def setGraph(self, func):
+    def set_graph(self, func):
         self.graph = func
         self.update()
 
-    def paintEvent(self, event):
+    def paint_event(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
     
@@ -386,7 +386,7 @@ class Viewer(QWidget):
                                event.rect().height() - 20)
 
             self.graph.draw(painter, graphRect)
-            self.graph.drawLegend(painter, legendRect)
+            self.graph.daw_legend(painter, legendRect)
 
         painter.end()
 
@@ -401,8 +401,8 @@ class DialogViewer(QDialog):
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.layout().addWidget(self.viewer)
 
-    def setGraph(self, func):
-        self.viewer.setGraph(func)
+    def set_graph(self, func):
+        self.viewer.set_graph(func)
 
 class DataTable(object):
     def __init__(self, columns=None, rows=None, key=0, sort=True):
@@ -413,9 +413,9 @@ class DataTable(object):
         if sort:
             self.rows = sorted(self.rows, key=lambda x:x[key], reverse=True)
 
-    def addColumn(self, label):
+    def add_column(self, label):
         self.columns.append(label)
 
-    def addRow(self, row):
+    def add_row(self, row):
         assert len(row) == len(self.columns)
         self.rows.append(row)
