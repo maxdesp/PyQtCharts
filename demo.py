@@ -4,7 +4,9 @@ from qcharts import (PieChart, ScatterChart, LineChart, AreaChart,
                         DataTable, DialogViewer)
 from PyQt5.Qt import QApplication
 
-def _pieChartDemo():
+def _pie_chart_demo():
+    """ demonstration of pie chart
+    """
     columns =['Lang', 'Rating']
     rows = [['Java', 17.874],
             ['C', 17.322],
@@ -22,7 +24,9 @@ def _pieChartDemo():
     view.set_graph(chart)
     view.exec_()
 
-def _scatterChartDemo():
+def _scatter_chart_demo():
+    """ demonstration of scatter chart
+    """
     columns = ['Quality', 'Test 1', 'Test 2']
     rows = [[ 92,  4.9,  8.0],
             [ 94,  2.0,  2.5],
@@ -50,7 +54,9 @@ def _scatterChartDemo():
     view.resize(400, 240)
     view.exec_()
 
-def _lineChartDemo():
+def _line_chart_demo():
+    """ demonstration of line chart
+    """
     table = DataTable()
     table.add_column('Time')
     table.add_column('Site 1')
@@ -77,7 +83,9 @@ def _lineChartDemo():
     view.resize(400, 240)
     view.exec_()
 
-def _areaChartDemo():
+def _area_chart_demo():
+    """ demonstration of area chart
+    """
     table = DataTable()
     table.add_column('Time')
     table.add_column('Site 1')
@@ -107,7 +115,7 @@ if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
 
-    _pieChartDemo()
-    _scatterChartDemo()
-    _lineChartDemo()
-    _areaChartDemo()
+    _pie_chart_demo()
+    _scatter_chart_demo()
+    _line_chart_demo()
+    _area_chart_demo()
