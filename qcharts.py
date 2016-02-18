@@ -20,7 +20,9 @@ DEFAULT_COLORS = [0x3366cc, 0xdc3912, 0xff9900, 0x109618, 0x990099,
                   0x0099c6, 0xdd4477, 0x66aa00, 0xb82e2e, 0x316395,
                   0x994499, 0x22aa99, 0xaaaa11, 0x6633cc, 0x16d620]
 
-class Chart(object):
+class Chart(object):	
+    """ Parent class for all charts
+    """
     def __init__(self, data, colors=None):
         self.data = data
         self.colors = colors
@@ -103,6 +105,8 @@ class Chart(object):
         return cycle(self.colors)
 
 class PieChart(Chart):
+    """ Draw pie chart.
+    """
     def draw(self, painter, rectangle):
         painter.save()
         painter.translate(rectangle.x(), rectangle.y())
@@ -127,6 +131,8 @@ class PieChart(Chart):
             yield row[self._ref_col]
 
 class ScatterChart(Chart):
+    """ Draw scatter chart.
+    """
     SPAN = 10
 
     def __init__(self, data, **kwargs):
@@ -278,10 +284,9 @@ class ScatterChart(Chart):
 
     def setup_default_values(self):
         def _min_max_delta(col):
-            vmin = None
-            vmax = None
-            vdelta = 0
-            ndelta = 1
+            
+            vmin, vmax = None, None
+            vdelta, ndelta = 0, 1
 
             last_value = self.data.rows[0][col]
             vmin = vmax = last_value
@@ -322,7 +327,8 @@ class ScatterChart(Chart):
             if self.vaxis_step is None: self.vaxis_step = oth_step
 
 class LineChart(ScatterChart):
-    
+    """ Draw line chart
+    """
     def _draw_column_data(self, painter, color, xcol,
                         ycol, xmin, xmax, ymin, ymax):
 
@@ -343,6 +349,8 @@ class LineChart(ScatterChart):
             painter.drawPath(path)
 
 class AreaChart(ScatterChart):
+    """ Draw area chart
+    """
     def _draw_column_data(self, painter, color,
                         xcol, ycol, xmin, xmax, ymin, ymax):
                             
@@ -364,6 +372,8 @@ class AreaChart(ScatterChart):
         painter.drawPath(path)
 
 class Viewer(QWidget):
+    """ Widget container for Chart object
+    """
     def __init__(self):
         QWidget.__init__(self)
         self.graph = None
