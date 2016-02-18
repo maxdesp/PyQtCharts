@@ -11,10 +11,10 @@
 #   convert form PyQt4   to PyQt5
 
 from itertools import cycle
-from PyQt5.QtWidgets import QDockWidget, QSizePolicy
+from PyQt5.QtWidgets import QDockWidget, QSizePolicy, QFileDialog
 from PyQt5.Qt import (QImage, QPainter, QRect, QPoint, QWidget,
                       QDialog, QApplication, QVBoxLayout, Qt,
-                      QPen, QColor, QPainterPath)
+                      QPen, QColor, QPainterPath, QSize)
 
 DEFAULT_COLORS = [0x3366cc, 0xdc3912, 0xff9900, 0x109618, 0x990099,
                   0x0099c6, 0xdd4477, 0x66aa00, 0xb82e2e, 0x316395,
@@ -40,6 +40,15 @@ class Chart(object):
     def save(self, filename, chart_size, legend_width=None):
         """ save graph as file
         """
+        if not filename:
+            """ if filename is not specified, open a save file dialog
+            """
+            filename = QFileDialog.getSaveFileName(None, 'Save File')[0]
+            if not filename[-4:] in ['.png', '.jpg',]:
+                """ TODO : cleaner extension manager
+                """
+                filename += ".png"
+                
         image_size = chart_size
         
         if legend_width:

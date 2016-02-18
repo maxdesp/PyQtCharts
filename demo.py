@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from qcharts import (PieChart, ScatterChart, LineChart, AreaChart,
-                        DataTable, DialogViewer)
-from PyQt5.Qt import QApplication
+                    DataTable, DialogViewer)
+from PyQt5.Qt import QApplication,QSize
+# from PyQt5.QtWidgets import 
 
 def _pie_chart_demo():
     """ demonstration of pie chart
@@ -19,11 +20,15 @@ def _pie_chart_demo():
     # table.add_row()
 
     chart = PieChart(table)
-    #chart.save('pie.png', QSize(240, 240), 100)
+    
     view = DialogViewer(size=(360, 240))
     view.set_graph(chart)
     view.exec_()
 
+    # save dialog
+    chart.save('', QSize(240, 240), 100)
+
+    
 def _scatter_chart_demo():
     """ demonstration of scatter chart
     """
