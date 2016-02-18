@@ -262,6 +262,7 @@ class ScatterChart(Chart):
 
     def _v_to_string(self, value):
         if isinstance(self.vaxis_step, float):
+            # assert '%.2f' % value == '{:.2f}'.format(value)
             return '%.2f' % value
         if isinstance(self.vaxis_step, int):
             return '{}'.format(value)
@@ -269,6 +270,7 @@ class ScatterChart(Chart):
 
     def _h_to_string(self, value):
         if isinstance(self.haxis_step, float):
+            # assert '%.2f' % value == '{:.2f}'.format(value)
             return '%.2f' % value
         if isinstance(self.haxis_step, int):
             return '{}'.format(value)
